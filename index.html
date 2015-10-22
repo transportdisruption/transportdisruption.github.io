@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>The Transport Disruption Ontology by transportdisruption</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>The Transport Disruption Ontology</h1>
+          <h2>Modelling travel and transport related events and their disruptive impact on the (travel) plans of agents</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/transportdisruption" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h3>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h3>
+
+<p>The Transport Disruption ontology provides a formal framework for modelling travel and transport related events that have a disruptive impact on an agent's planned travel.</p>
+
+<p>The ontology can be considered as consisting of two main sections: classes modelling the disruptive event and its impact on an agent’s plan, and a hierarchy of travel and transport related events.  </p>
+
+<p>For details of the ontology itself, please see <a href="https://transportdisruption.github.io/transportdisruption.html">the ontology documentation</a>.  The ontology is also available in <a href="https://transportdisruption.github.io/transportdisruption.ttl">TTL</a> and <a href="https://transportdisruption.github.io/transportdisruption.owl">RDF/XML</a> encodings either directly or through content negotiation using the <a href="http://purl.org/td/transportdisruption">http://purl.org/td/transportdisruption</a> namespace.</p>
+
+<h3>
+<a id="example-events" class="anchor" href="#example-events" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example Events</h3>
+
+<p>Throughout this page, examples are defined in the TTL format using the following namespaces:</p>
+
+<pre><code> @prefix td: &lt;http://purl.org/td/transportdisruption#&gt;.
+ @prefix tl: &lt;http://purl.org/NET/c4dm/timeline.owl#&gt;.
+ @prefix event: &lt;http://purl.org/NET/c4dm/event.owl#&gt;.
+ @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;.
+ @prefix geo: &lt;http://www.w3.org/2003/01/geo/wgs84_pos#&gt;.
+ @prefix eg: &lt;http://www.example.com#&gt;.
+ @base &lt;http://www.example.com#&gt;.
+</code></pre>
+
+<p>While the ontology documentation is useful, some examples are also useful! Lets consider an simple example where there will be roadworks on Union Street in Aberdeen, UK taking place overnight from 21:00 on Monday 20 October 2015 until 06:00 Tuesday 21 October 2015, and as a result the road will be closed.  This can be represented as:</p>
+
+<pre><code>eg:roadworks a td:Roadworks;
+   event:place eg:roadworksLocation;
+   event:time eg:mondayNight.
+
+eg:roadworksLocation a geo:Point;
+   geo:lat "57.146451"
+   geo:long "-2.09872"
+
+eg:mondayNight a tl:Interval;
+   tl:beginsAtDateTime "2015-10-20T21:00:00"^^xsd:dateTime;
+   tl:endsAtDateTime "2015-10-21T07:00:00"^^xsd:dateTime.
+
+eg:roadclosed a td:RoadClosure;
+   event:place &lt;http://linkedgeodata.org/page/triplify/way95288246&gt;;
+   event:time eg:mondayNight;
+   event:factor :roadworks.
+</code></pre>
+
+<p>A couple of things to note about this example: </p>
+
+<ul>
+<li>The roadworks are located with a geolocation consisting of latitude and longitude values specifying where the roadworks are taking place.</li>
+<li>The road closure is located using the <a href="http://%20linkedgeodata.org">LinkedGeoData</a> representation of one of the <a href="http://www.openstreetmap.org">OpenStreetMap</a> ways for <a href="https://www.openstreetmap.org/way/95288246">Union Street, Aberdeen, UK</a>.  As this particular road consists of multiple ways, we could have added them all, but this particular one is fine indicating the part of the road that is closed.<br>
+</li>
+<li>As both the roadworks and road closure occur at the same time, they use the same interval (defined using the <a href="http://motools.sourceforge.net/timeline/timeline.html#term_Interval">Interval class of the Timeline ontology</a>).</li>
+<li>The relationship between the two events (i.e. that the road closure is due to the roadworks) is captured by the <code>eg:roadclosed event:factor :roadworks</code> triple.</li>
+</ul>
+        </section>
+
+        <footer>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
