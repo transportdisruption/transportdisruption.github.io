@@ -33,7 +33,7 @@
               tl:endsAtDateTime "2015-10-20T20:55:00"^^xsd:dateTime. ].
 				
  :alternativeRouteNecessary a td:DisruptiveImpact;
-     td:relevantTo :Bob;
+     td:relevantTo :bob;
      td:impactsOn :bobsDriveToWork;
      td:hasCause :roadclosure.
 	 
