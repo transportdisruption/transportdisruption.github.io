@@ -30,34 +30,34 @@
 
 <p>Throughout this page, examples are defined in the TTL format using the following namespaces:</p>
 
-<pre><code> @prefix td: &lt;http://purl.org/td/transportdisruption#&gt;.
- @prefix tl: &lt;http://purl.org/NET/c4dm/timeline.owl#&gt;.
- @prefix event: &lt;http://purl.org/NET/c4dm/event.owl#&gt;.
- @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;.
- @prefix geo: &lt;http://www.w3.org/2003/01/geo/wgs84_pos#&gt;.
- @prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt;.
- @prefix eg: &lt;http://www.example.com#&gt;.
- @base &lt;http://www.example.com#&gt;.
+<pre><code> @prefix : &lt;http://www.example.com/transportdisruption#&gt; .
+ @prefix td: &lt;http://purl.org/td/transportdisruption#&gt; .
+ @prefix tl: &lt;http://purl.org/NET/c4dm/timeline.owl#&gt; .
+ @prefix event: &lt;http://purl.org/NET/c4dm/event.owl#&gt; .
+ @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .
+ @prefix geo: &lt;http://www.w3.org/2003/01/geo/wgs84_pos#&gt; .
+ @prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+ @base &lt;http://www.example.com/transportdisruption&gt; .
 </code></pre>
 
 <p>While the ontology documentation is useful, some examples are also useful! Lets consider an simple example where there will be roadworks on Union Street in Aberdeen, UK taking place overnight from 19:00 on Monday 20 October 2015 until 06:00 Tuesday 21 October 2015, and as a result the road will be closed.  This can be represented as:</p>
 
-<pre><code>eg:roadworks a td:Roadworks;
-   event:place eg:roadworksLocation;
-   event:time eg:mondayNight.
+<pre><code> :roadworks a td:Roadworks;
+    event:place :roadworksLocation;
+    event:time :mondayNight.
 
-eg:roadworksLocation a geo:Point;
-   geo:lat "57.146451"
-   geo:long "-2.09872"
+ :roadworksLocation a geo:Point;
+    geo:lat "57.146451";
+    geo:long "-2.09872".
 
-eg:mondayNight a tl:Interval;
-   tl:beginsAtDateTime "2015-10-20T19:00:00"^^xsd:dateTime;
-   tl:endsAtDateTime "2015-10-21T07:00:00"^^xsd:dateTime.
+ :mondayNight a tl:Interval;
+    tl:beginsAtDateTime "2015-10-20T19:00:00"^^xsd:dateTime;
+    tl:endsAtDateTime "2015-10-21T07:00:00"^^xsd:dateTime.
 
-eg:roadclosure a td:RoadClosure;
-   event:place &lt;http://linkedgeodata.org/page/triplify/way95288246&gt;;
-   event:time eg:mondayNight;
-   event:factor :roadworks.
+ :roadclosure a td:RoadClosure;
+    event:place &lt;http://linkedgeodata.org/page/triplify/way95288246&gt;;
+    event:time :mondayNight;
+    event:factor :roadworks.
 </code></pre>
 
 <p>A couple of things to note about this example: </p>
@@ -75,33 +75,33 @@ eg:roadclosure a td:RoadClosure;
 
 <p>OK, so we have some events, now lets consider the travel plans of Bob, who was due to drive along that part of Union Street on his way to work that evening:</p>
 
-<pre><code> eg:bob a faof:Person;
-    td:hasPlan eg:driveToWork.
+<pre><code>  :bob a foaf:Person;
+     td:hasPlan :driveToWork.
 
- eg:bobsDriveToWork a td:Plan;
-    eg:time [ tl:beginsAtDateTime "2015-10-20T20:30:00"^^xsd:dateTime;
-              tl:endsAtDateTime "2015-10-20T20:55:00"^^xsd:dateTime. ]
-    eg:route [ ....
-                &lt;http://linkedgeodata.org/page/triplify/way95288246&gt;,
-             ... ].
+  :bobsDriveToWork a td:Plan;
+     :time [ tl:beginsAtDateTime "2015-10-20T20:30:00"^^xsd:dateTime;
+               tl:endsAtDateTime "2015-10-20T20:55:00"^^xsd:dateTime. ];
+     :route [ ....
+             &lt;http://linkedgeodata.org/page/triplify/way95288246&gt;,
+            ... ].
 </code></pre>
 
 <p>As Bob will be travelling when the road is closed, he is not going to be able to complete his journey as normal.  Most likely he is going to have to divert his route to avoid the road closure.  Using the Transport Disruption ontology, this could be represented as follows:</p>
 
-<pre><code> eg:alternativeRouteNecessary a td:DisruptiveImpact;
-     td:relevantTo eg:bob;
-     td:impactsOn eg:bobsDriveToWork;
-     td:hasCause eg:roadclosure.
+<pre><code>  :alternativeRouteNecessary a td:DisruptiveImpact;
+      td:relevantTo :bob;
+      td:impactsOn :bobsDriveToWork;
+      td:hasCause :roadclosure.
 </code></pre>
 
 <p>As <code>td:hasCause</code> is the inverse property of <code>td:casuseOf</code> the triple <code>eg:alternativeRouteNecessary td:hasCause eg:roadclosure</code> will result in the following inference</p>
 
-<pre><code>eg:roadclosure td:causeOf eg:alternativeRouteNecessary.
+<pre><code> :roadclosure td:causeOf :alternativeRouteNecessary.
 </code></pre>
 
 <p>And as such the <code>eg:roadclosure</code> is now considered to be a disruptive event as it has had a disruptive impact on Bob's travel plans, captured by the following assertion:</p>
 
-<pre><code>eg:roadclosure a td:DisruptiveEvent.
+<pre><code> :roadclosure a td:DisruptiveEvent.
 </code></pre>
 
 <p>The full example is <a href="https://github.com/transportdisruption/transportdisruption.github.io/blob/master/example.ttl">available here</a>.</p>
