@@ -1,0 +1,41 @@
+@prefix : <http://www.example.com/transportdisruption#> .
+@prefix td: <http://purl.org/td/transportdisruption#> .
+@prefix tl: <http://purl.org/NET/c4dm/timeline.owl#> .
+@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@base <http://www.example.com/transportdisruption> .
+ 
+:roadworks a td:Roadworks;
+   event:place :roadworksLocation;
+   event:time :mondayNight.
+
+:roadworksLocation a geo:Point;
+   geo:lat "57.146451";
+   geo:long "-2.09872".
+
+:mondayNight a tl:Interval;
+   tl:beginsAtDateTime "2015-10-20T19:00:00"^^xsd:dateTime;
+   tl:endsAtDateTime "2015-10-21T07:00:00"^^xsd:dateTime.
+
+:roadclosure a td:RoadClosure;
+   event:place <http://linkedgeodata.org/page/triplify/way95288246>;
+   event:time :mondayNight;
+   event:factor :roadworks.
+   
+:bob a foaf:Person;
+    td:hasPlan :driveToWork.
+
+ :bobsDriveToWork a td:Plan;
+    :route <http://linkedgeodata.org/page/triplify/way95288246>, <http://linkedgeodata.org/page/triplify/way95288247>;
+    :time [ tl:beginsAtDateTime "2015-10-20T20:30:00"^^xsd:dateTime;
+              tl:endsAtDateTime "2015-10-20T20:55:00"^^xsd:dateTime. ].
+				
+ :alternativeRouteNecessary a td:DisruptiveImpact;
+     td:relevantTo :Bob;
+     td:impactsOn :bobsDriveToWork;
+     td:hasCause :roadclosure.
+	 
+:roadclosure td:causeOf :alternativeRouteNecessary.
+             
