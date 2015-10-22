@@ -28,7 +28,7 @@
     td:hasPlan :driveToWork.
 
  :bobsDriveToWork a td:Plan;
-    :route <http://linkedgeodata.org/page/triplify/way95288246>, <http://linkedgeodata.org/page/triplify/way95288247>;
+    :route <http://linkedgeodata.org/page/triplify/way95288246>;
     :time [ tl:beginsAtDateTime "2015-10-20T20:30:00"^^xsd:dateTime;
               tl:endsAtDateTime "2015-10-20T20:55:00"^^xsd:dateTime. ].
 				
