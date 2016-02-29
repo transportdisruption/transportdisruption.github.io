@@ -8,4 +8,5 @@ For more information on the ontology itself, please see the ISWC 2015 paper [The
 
 If you would like to join the group and contribute to the ontology, let us know about an extension to link to, ask questions, or have any other comments, please feel free to get in touch with 
 * David Corsar, University of Aberdeen, either on here (@dcorsar), via his [website](http://homepages.abdn.ac.uk/dcorsar/pages), or [via Twitter](http://www.twitter.com/davidcorsar).
+* Milan Markovic, University of Aberdeen, either on here (@m-markovic), or via his [website](http://www.milarnmarkovic.info).
 
